@@ -9,4 +9,4 @@ while ((Hour<=12)); do
         ((Minute++))
     done
     ((Hour++))
-done | head -70
+done
