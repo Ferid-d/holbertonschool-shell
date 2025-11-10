@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 #comment
 Hour=0
-while ((Hour<=12)); do
+while (($Hour -le 12)); do
     echo "Hour: $Hour"
     Minute=1
-    while ((Minute<60)); do
+    while ((Minute -lt 60)); do
         echo $Minute
-        ((Minute++))
+        Minute=$((Minute+1))
     done
-    ((Hour++))
-done | head -n 70
+    Hour=$((Hour+1))
+done
