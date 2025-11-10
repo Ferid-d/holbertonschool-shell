@@ -1,4 +1,4 @@
-#!/user/bin/env bash
+#!/usr/bin/env bash
 #vblkrmbkm
 while read line; do
  username=$(echo "$line" | cut -d: -f1)
