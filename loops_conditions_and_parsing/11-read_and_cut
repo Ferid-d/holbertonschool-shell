@@ -1,0 +1,8 @@
+#!/user/bin/env bash
+#vblkrmbkm
+while read line; do
+ username=$(echo "$line" | cut -d: -f1)
+ uid=$(echo "$line" | cut -d: -f3)
+ directory=$(echo "$line" | cut -d: -f6)
+ echo "$username,$uid,$directory"
+done < /etc/passwd
