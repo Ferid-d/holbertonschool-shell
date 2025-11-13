@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#ebevbev
+pkill -9 "7-highlander"
