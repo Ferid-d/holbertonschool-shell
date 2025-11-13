@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#ebrbrt
+pkill -15 "6-stop_me_if_you_can"
+echo "I am invincible!!!"
+

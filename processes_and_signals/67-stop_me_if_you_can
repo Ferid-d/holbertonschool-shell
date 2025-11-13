@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#dfbdbb
+pkill -19 "7-highlander"
