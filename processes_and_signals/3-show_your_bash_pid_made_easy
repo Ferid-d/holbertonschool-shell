@@ -1,3 +1,25 @@
 #!/usr/bin/env bash
 #brb5btrb
-'cat /proc | grep bash
+# Step 1: List all process folders in /proc
+echo "Looking for bash processes..."
+
+# Step 2: Check each folder in /proc
+for process_folder in /proc/*; do
+    # Step 3: Get just the folder name (which is the PID)
+    folder_name=$(basename "$process_folder")
+    
+    # Step 4: Check if folder name is a number (means it's a process)
+    if [[ $folder_name =~ ^[0-9]+$ ]]; then
+        # Step 5: Check if this process has a 'comm' file
+        if [[ -f "$process_folder/comm" ]]; then
+            # Step 6: Read the process name
+            name=$(cat "$process_folder/comm")
+            
+            # Step 7: Check if name has "bash" in it
+            if [[ $name == *bash* ]]; then
+                # Step 8: Print the PID and process name
+                echo "Found: $folder_name $name"
+            fi
+        fi
+    fi
+done
