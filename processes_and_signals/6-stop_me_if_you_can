@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 #dfbdbb
-pkill -19 "4-to_infinity_and_beyond"
+pkill -15 "4-to_infinity_and_beyond"
+echo "I am invincible!!!"
