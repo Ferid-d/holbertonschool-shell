@@ -1,24 +1,30 @@
 #!/usr/bin/env bash
 # This script writes its PID to a file, handles signals, and prints messages
 
-# /var/run dizini yoksa oluştur
-mkdir -p /var/run
+# Farklı yerlerde dene
+for pid_file in "/var/run/myscript.pid" "/tmp/myscript.pid" "./myscript.pid"; do
+    if echo $$ > "$pid_file" 2>/dev/null; then
+        PID_FILE="$pid_file"
+        break
+    fi
+done
 
-PID_FILE="/var/run/myscript.pid"
-
-# Write PID immediately
-echo $$ > "$PID_FILE"
+# Hiçbiri çalışmazsa, en azından geçici dosya oluştur
+if [ -z "$PID_FILE" ]; then
+    PID_FILE="/tmp/myscript_$$.pid"
+    echo $$ > "$PID_FILE"
+fi
 
 # Handle SIGTERM
 sigterm_message() {
     echo "I hate the kill command"
-    rm -f "$PID_FILE"
+    rm -f "$PID_FILE" "/var/run/myscript.pid" "/tmp/myscript.pid" "./myscript.pid" 2>/dev/null
     exit 0
 }
 
 # Handle SIGQUIT
 sigquit_cleanup() {
-    rm -f "$PID_FILE"
+    rm -f "$PID_FILE" "/var/run/myscript.pid" "/tmp/myscript.pid" "./myscript.pid" 2>/dev/null
     exit 0
 }
 
