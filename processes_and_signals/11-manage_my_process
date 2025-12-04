@@ -13,8 +13,8 @@ start_process() {
     # PID'i kaydet
     echo $! > "$PID_FILE"
     
-    # Çıktı dosyasını temizle (isteğe bağlı)
-    > "$OUTPUT_FILE"
+    # Çıktı dosyasını temizle (true komutu ile)
+    true > "$OUTPUT_FILE"
     
     echo "manage_my_process started"
 }
