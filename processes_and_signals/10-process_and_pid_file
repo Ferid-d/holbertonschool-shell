@@ -1,21 +1,29 @@
 #!/usr/bin/env bash
-#errbrtb
-# Create PID file
-echo $$ > /var/run/myscript.pid
+# This script writes its PID to a file, handles signals, and prints messages
 
-# Cleanup function
-cleanup() {
-    rm -f /var/run/myscript.pid
+PID_FILE="/tmp/myscript.pid"
+
+# Write PID immediately
+echo $$ > "$PID_FILE"
+
+# Handle SIGTERM
+sigterm_message() {
+    echo "I hate the kill command"
+    rm -f "$PID_FILE"
     exit 0
 }
 
-# Signal handlers
-trap "echo 'I hate the kill command'" TERM
-trap "echo 'Y U no love me?!'; cleanup" INT
-trap cleanup QUIT
+# Handle SIGQUIT
+sigquit_cleanup() {
+    rm -f "$PID_FILE"
+    exit 0
+}
 
-# Main loop
+trap sigterm_message SIGTERM
+trap sigquit_cleanup SIGQUIT
+
+# Infinite loop
 while true; do
     echo "To infinity and beyond"
-    sleep 2
+    sleep 1
 done
