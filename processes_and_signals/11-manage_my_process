@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+# 11-manage_my_process - Process yönetim scripti
+
+PID_FILE="/var/run/my_process.pid"
+PROCESS_SCRIPT="./manage_my_process"
+OUTPUT_FILE="/tmp/my_process"
+
+# Fonksiyon: Process başlat
+start_process() {
+    # Process'i arka planda başlat
+    "$PROCESS_SCRIPT" &
+    
+    # PID'i kaydet
+    echo $! > "$PID_FILE"
+    
+    # Çıktı dosyasını temizle (isteğe bağlı)
+    > "$OUTPUT_FILE"
+    
+    echo "manage_my_process started"
+}
+
+# Fonksiyon: Process durdur
+stop_process() {
+    # PID dosyasını oku ve process'i durdur
+    if [ -f "$PID_FILE" ]; then
+        PID=$(cat "$PID_FILE")
+        kill "$PID" 2>/dev/null
+        
+        # Process'in durmasını bekle
+        sleep 1
+        
+        # Zorla durdur (eğer hala çalışıyorsa)
+        kill -9 "$PID" 2>/dev/null
+        
+        # PID dosyasını sil
+        rm -f "$PID_FILE"
+        
+        echo "manage_my_process stopped"
+    else
+        echo "Error: PID file not found" >&2
+        exit 1
+    fi
+}
+
+# Fonksiyon: Process yeniden başlat
+restart_process() {
+    # Önce durdur
+    stop_process 2>/dev/null
+    sleep 1
+    
+    # Sonra başlat
+    start_process
+    echo "manage_my_process restarted"
+}
+
+# Ana kod
+case "$1" in
+    start)
+        start_process
+        ;;
+    stop)
+        stop_process
+        ;;
+    restart)
+        restart_process
+        ;;
+    *)
+        # Geçersiz argüman
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+        ;;
+esac
+
+exit 0
