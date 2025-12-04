@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # This script writes its PID to a file, handles signals, and prints messages
 
-PID_FILE="/tmp/myscript.pid"
+PID_FILE="/var/run/myscript.pid"  # Değiştirildi: /tmp/ yerine /var/run/
 
 # Write PID immediately
 echo $$ > "$PID_FILE"
